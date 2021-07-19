@@ -11,15 +11,13 @@
 import java.util.ArrayList;
 import java.util.Vector;
 
-public class AstarPathfinder {
-
+public class AstarPathfinder
+{
 	private Vector<NodeModel> mr_nodesRef;
 	private Vector<NodeLocalTree> mr_relationships;
 	private Vector<Vector<NodeLocalTree>> mr_structuredGraph;
-	
 	private ArrayList<NodeLocalTree> m_openList;
 	private ArrayList<NodeLocalTree> m_closedList;
-
 	private UIOutputPanel out;
 	
 	public AstarPathfinder()
