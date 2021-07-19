@@ -123,17 +123,17 @@ public class AstarPathfinder {
 				//currentNodeTree//Distance from element
 
 				g = currentNodeTree.m_node.g;// SumOfG;
-						//we want to recotd distance to the current square and then to this cell as this cell's G number
-						resx = Math.abs(currentNodeTree.m_node.x - testingNodeTree.m_node.x);
-						resy = Math.abs(currentNodeTree.m_node.y - testingNodeTree.m_node.y);
-						distance =  Math.sqrt(resx*resx + resy*resy);
+				//we want to recotd distance to the current square and then to this cell as this cell's G number
+				resx = Math.abs(currentNodeTree.m_node.x - testingNodeTree.m_node.x);
+				resy = Math.abs(currentNodeTree.m_node.y - testingNodeTree.m_node.y);
+				distance =  Math.sqrt(resx*resx + resy*resy);
 				g += distance;//on first iteration it will be 0 our position is the same as the only open list option.
 
-						//vector mag calculation done here
-						resx = Math.abs(testingNodeTree.m_node.x - destination.x);
-						resy = Math.abs(testingNodeTree.m_node.y - destination.y);
-						distance = Math.sqrt(resx*resx + resy*resy)-1;
-						//-2.0f here for reason.
+				//vector mag calculation done here
+				resx = Math.abs(testingNodeTree.m_node.x - destination.x);
+				resy = Math.abs(testingNodeTree.m_node.y - destination.y);
+				distance = Math.sqrt(resx*resx + resy*resy)-1;
+				//-2.0f here for reason.
 				// The heuristic must guess lower then the shortest possible distance to not break A star
 				h = distance;
 				f = g + h;
