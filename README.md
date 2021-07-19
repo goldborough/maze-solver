@@ -8,7 +8,7 @@ Interpret a text file and solve a maze.
 
 Yellow is unsearched.
 
-Blue and Green is searched.
+Blue and green is searched.
 
 Blue is the final path.
 
