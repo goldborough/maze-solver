@@ -10,13 +10,13 @@ public class OperationResult
 {
 	boolean success;
 
-	public OperationResult(){}
+	public OperationResult()
+	{}
 
 	public OperationResult(boolean in)
 	{
 		init(in);
 	}
-
 
 	public void init(boolean in)
 	{

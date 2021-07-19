@@ -11,8 +11,9 @@ public class Driver {
 		BaseUI guiFrame=new BaseUI();
 
 		guiFrame.addWindowListener(
-				new WindowAdapter() {
-				public void windowClosing (WindowEvent e) {
+			new WindowAdapter() {
+				public void windowClosing (WindowEvent e)
+				{
 					System.exit(0);
 				}
 			}

@@ -6,20 +6,18 @@
  * @version 1.00 2019/4/26
  */
 
-
-
 import java.awt.Dimension;
 //import java.awt.geom.Point2D;
 
 import java.util.Vector;
 
- enum MazeInitState {
-  maze_not_initialised,
-  maze_vectorCreated,
-  maze_initialised,
-  maze_init_state_count
-  };
-
+ enum MazeInitState
+ {
+	maze_not_initialised,
+	maze_vectorCreated,
+	maze_initialised,
+	maze_init_state_count
+};
 
 public class MazeModel {
 	private MazeInitState m_state = MazeInitState.maze_not_initialised;
@@ -27,15 +25,14 @@ public class MazeModel {
 	//public int x, y; coordinates if the maze was a subset in a larger space
 
 	//maze size, all vectors are assuming a complete and rectangular set of data using this width and height
-    public int m_xSize = 0;
-    public int m_ySize = 0;
+	public int m_xSize = 0;
+	public int m_ySize = 0;
 
+	public NodeModel mr_origin;//ref to origin node
+	public NodeModel mr_destination;//ref to target node
 
-    public NodeModel mr_origin;//ref to origin node
-    public NodeModel mr_destination;//ref to target node
-
-    private int neighbourRelY;
-    private int neighbourRelX;
+	private int neighbourRelY;
+	private int neighbourRelX;
 
 	//m_maze
 	////Only an array of nodemodel elements but kept as a structure, might fit more in cache but be more useful for toroidal  space trigonomety calculations
@@ -53,24 +50,23 @@ public class MazeModel {
 	//Most useful for selecting items to add to an Openlist in an A* search
 	private Vector<Vector<NodeLocalTree>> m_structuredGraph; //Quadrant 4 coordiate space when printed
 
-    public MazeModel() {
-    	m_xSize = 0;
-    	m_ySize = 0;
-    	m_maze = new Vector<Vector<NodeModel>>();
-    	m_nodes = new Vector<NodeModel>();
-    	m_state = MazeInitState.maze_vectorCreated;
-    }
+	public MazeModel() {
+		m_xSize = 0;
+		m_ySize = 0;
+		m_maze = new Vector<Vector<NodeModel>>();
+		m_nodes = new Vector<NodeModel>();
+		m_state = MazeInitState.maze_vectorCreated;
+	}
 
-    public void init()
-    {
-    	m_maze = new Vector<Vector<NodeModel>>();
-    	m_nodes =  new Vector<NodeModel>();
-    	m_relationships =  new Vector<NodeLocalTree>();
-    	m_structuredGraph =  new Vector<Vector<NodeLocalTree>>();
+	public void init()
+	{
+		m_maze = new Vector<Vector<NodeModel>>();
+		m_nodes =  new Vector<NodeModel>();
+		m_relationships =  new Vector<NodeLocalTree>();
+		m_structuredGraph =  new Vector<Vector<NodeLocalTree>>();
 
-    	m_state = MazeInitState.maze_initialised;
-    }
-
+		m_state = MazeInitState.maze_initialised;
+	}
 
 	//METHOD buildGraphFromManhattanSystem
 	//for any seach we will need to know the local neighbours of any node - at each step of a search
@@ -177,15 +173,13 @@ public class MazeModel {
 		else if (!isToroidalMap)
 		{
 			if (neighbourRelY <0) {result.success=false;return null;}
-	    	else if (neighbourRelY >= m_ySize) {result.success=false;return null;}
+			else if (neighbourRelY >= m_ySize) {result.success=false;return null;}
 
-	    	if (neighbourRelX <0)  {result.success=false;return null;}
-	    	else if (neighbourRelX >= m_xSize)  {result.success=false;return null;}
+			if (neighbourRelX <0)  {result.success=false;return null;}
+			else if (neighbourRelX >= m_xSize)  {result.success=false;return null;}
 
-
-	    	result.success=true;
-    	}
-
+			result.success=true;
+		}
 
 		NodeModel node = null;
 
@@ -193,19 +187,19 @@ public class MazeModel {
 		{
     		node= m_maze.get(neighbourRelY).get(neighbourRelX);
 		}
-		catch (Exception ex) {System.out.println(ex); return null;}
+		catch (Exception ex) {
+			System.out.println(ex); return null;
+		}
 
 		if (node==null) System.out.println("Node should not be null");
-
-
 
 		result.success = true;
 
 		return node;
-    }
+	}
 
-    public boolean setState(MazeInitState state)
-    {
+	public boolean setState(MazeInitState state)
+	{
 		switch(state)
 		{
 			case maze_not_initialised:
@@ -218,29 +212,29 @@ public class MazeModel {
 	return false;
 	}
 
-    public MazeInitState getState()
-    {
+	public MazeInitState getState()
+	{
 		return m_state;
-    }
+	}
 
-    public Vector<Vector<NodeModel>> getMaze()
-    {
-    	return m_maze;
-    }
+	public Vector<Vector<NodeModel>> getMaze()
+	{
+		return m_maze;
+	}
 
-    public Vector<NodeModel> getNodeList()
-    {
-    	return m_nodes;
-    }
+	public Vector<NodeModel> getNodeList()
+	{
+		return m_nodes;
+	}
 
- 	public Vector<NodeLocalTree> getRelationships()
-    {
-    	return m_relationships;
-    }
+	public Vector<NodeLocalTree> getRelationships()
+	{
+		return m_relationships;
+	}
 
- 	public Vector<Vector<NodeLocalTree>> getStructuredGraph()
-    {
-    	return m_structuredGraph;
-    }
+	public Vector<Vector<NodeLocalTree>> getStructuredGraph()
+	{
+		return m_structuredGraph;
+	}
 
 }

@@ -19,34 +19,30 @@ public class NodeModel {
 	public boolean isOpenList;
 	public boolean isClosedList;
 
-
     public NodeModel() {
     	init();
     }
 
     public NodeModel(int identIn, int xIn, int yIn) {
-		identity = identIn;//0,1
+		identity = identIn;
     	x = xIn;
     	y = yIn;
 		f = 0;
 		g = 0;
 		h = 0;
 		isOpenList = false;
-		isClosedList=false;
+		isClosedList = false;
     }
-
 
     public void init()
     {
-    	identity = -1;//0,1
+    	identity = -1;
     	x = 0;
     	y = 0;
 		f = 0;
 		g = 0;
 		h = 0;
-
     	isOpenList = false;
-    	isClosedList=false;
-
+    	isClosedList = false;
     }
 }

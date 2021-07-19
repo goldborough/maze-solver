@@ -18,11 +18,13 @@ public class NodeLocalTree {
     public NodeModel m_node;
     public Vector<NodeModel> m_children;
 
-    public NodeLocalTree(NodeModel node, boolean isActive) {
+    public NodeLocalTree(NodeModel node, boolean isActive)
+    {
     	init(node, isActive);
     }
 
-     public void init(NodeModel node, boolean isActive) {
+     public void init(NodeModel node, boolean isActive)
+     {
 		m_parent=null;
 		m_child=null;;
      	m_isActiveNode = isActive;

@@ -33,8 +33,8 @@ import java.text.DecimalFormat;
 
 public class BaseUI extends JFrame {
 
-    private Scanner scan = new Scanner(System.in);
-    private char charArray[] = new char[125];
+	private Scanner scan = new Scanner(System.in);
+	private char charArray[] = new char[125];
 
 	private JLabel fieldCurrentTitle;
 
@@ -50,16 +50,16 @@ public class BaseUI extends JFrame {
 	UIOutputPanel m_outputPanel = null;
 
 
-    public BaseUI() {
-    	super("Maze Application by Michael Goldborough");
-    	JPanel northPanel =createButtonSection();
-    	JPanel southPanel =createContentsSection();
+	public BaseUI() {
+		super("Maze Application by Michael Goldborough");
+		JPanel northPanel =createButtonSection();
+		JPanel southPanel =createContentsSection();
 
 
 		 this.setLayout(new BorderLayout());
 
-    	add(northPanel,BorderLayout.NORTH);
-    	add(southPanel,BorderLayout.SOUTH);
+		add(northPanel,BorderLayout.NORTH);
+		add(southPanel,BorderLayout.SOUTH);
 
 		setSize(1920,1400);
 		pack();//allows manager (to manage better)
@@ -79,16 +79,16 @@ public class BaseUI extends JFrame {
 		ActionEvent e=null;
 		readMapButtonHandler.actionPerformed(e);
 
-    }
+	}
 
-    private JPanel createContentsSection(){
+	private JPanel createContentsSection(){
 		fieldCurrentTitle = new JLabel("Map Text View");
 
 		//fieldCurrentTitle
 
 		m_outputPanel= new UIOutputPanel();
 
-        JPanel miniLeft = new JPanel();
+		JPanel miniLeft = new JPanel();
 		miniLeft.setLayout(new GridLayout(30, 1));
 		miniLeft.add(new JButton(""));
 		miniLeft.setSize(40,1300);
@@ -101,10 +101,10 @@ public class BaseUI extends JFrame {
 		allContent.setBorder(new EmptyBorder(10, 10, 10, 10));
 
 		return allContent;
-    }
+	}
 
 
-    private JPanel createButtonSection(){
+	private JPanel createButtonSection(){
 		readMapButton = new JButton("Read Maze File");
 		readMapButton.setBorder(BorderFactory.createCompoundBorder(new EtchedBorder(),new EmptyBorder(10, 10, 10, 10)));
 
@@ -136,9 +136,9 @@ public class BaseUI extends JFrame {
 		return thePane;
     }
 
-    public void displayMessage(String message) {
-        if (m_outputPanel!=null ) m_outputPanel.displayMessage(message);
-    }
+	public void displayMessage(String message) {
+		if (m_outputPanel!=null ) m_outputPanel.displayMessage(message);
+	}
 
 	private class ReadMapButtonHandler implements ActionListener{
 		public void actionPerformed(ActionEvent event){

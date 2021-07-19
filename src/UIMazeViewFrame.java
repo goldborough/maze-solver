@@ -11,13 +11,14 @@
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
-public class UIMazeViewFrame extends JFrame {
-
+public class UIMazeViewFrame extends JFrame
+{
 	private UIMazeViewPanel m_uiMazeViewPanel;
 
-    public UIMazeViewFrame(MazeModel mazeModel, UIOutputPanel out) {
-    	super("Happy");
-    	m_uiMazeViewPanel = new UIMazeViewPanel();
+	public UIMazeViewFrame(MazeModel mazeModel, UIOutputPanel out)
+	{
+		super("Happy");
+		m_uiMazeViewPanel = new UIMazeViewPanel();
 		m_uiMazeViewPanel.init(mazeModel, out);
 
 		JScrollPane scrollFrame = new JScrollPane(m_uiMazeViewPanel);
@@ -32,8 +33,8 @@ public class UIMazeViewFrame extends JFrame {
 		this.add(scrollFrame);
 
 		setVisible(true);
-    	pack();
-    }
+		pack();
+	}
 
     public UIMazeViewPanel getUIMazeViewPanel()
     {

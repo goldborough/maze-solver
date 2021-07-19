@@ -25,7 +25,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 
-public class ReadMapFrame extends JFrame {
+public class ReadMapFrame extends JFrame
+{
 	private ReadMapHandler m_readMapButtonHandler;
 	private CancelButtonHandler m_cancelButtonHandler;
 
@@ -40,7 +41,6 @@ public class ReadMapFrame extends JFrame {
 	private ArrayList<String> m_SampleStrings;
 	private JComboBox m_pathCombo;
 
-
 	private JTextField m_pathField;
 	private JLabel m_instructionLabel, m_expandedInfoLabel;
 	private MapReader mr_mapReader;
@@ -52,9 +52,8 @@ public class ReadMapFrame extends JFrame {
 		private JPanel buttonPanel;
 
 
-
-
-    public ReadMapFrame(MapReader mapReader) {
+    public ReadMapFrame(MapReader mapReader)
+	{
     	super("Open Map File");
 
     	mr_mapReader = mapReader;
@@ -72,11 +71,9 @@ public class ReadMapFrame extends JFrame {
 	    this.add(buttonPanel);
 	    this.add(extendedInstructionPanel);
 
-
 		setSize(500,325);
 		setResizable(false);
 		setLocationRelativeTo(null);//centers frame
-
 
 		m_enterPathOption.setSelected(false);
 		m_selectPathOption.setSelected(true);
@@ -84,35 +81,31 @@ public class ReadMapFrame extends JFrame {
 		m_pathField.setVisible(false);
 		m_pathCombo.setVisible(true);
 
-
 		extendedInstructionPanel.setVisible(false);
-
 		setVisible(true);
-
     	m_pathCombo.setSelectedIndex(2);
-
-		}
+	}
 
 	public void WAIT()
 	{
 		super.setCursor(WAIT_CURSOR);
 	}
 
-
 	public void FINISHED()
 	{
 		super.setCursor(DEFAULT_CURSOR);
 	}
 
-
-	private JPanel createInstructionPanel(){
+	private JPanel createInstructionPanel()
+	{
 		m_instructionLabel=new JLabel("Enter your map file name.");
 		JPanel panel =new JPanel();
 		panel.add(m_instructionLabel);
     	return panel;
     }
 
-    private JPanel createRadioPanel(){
+    private JPanel createRadioPanel()
+	{
 		m_selectPathOption = new JRadioButton("Select a Path");
 		m_enterPathOption = new JRadioButton("Enter a path");
 
@@ -126,10 +119,8 @@ public class ReadMapFrame extends JFrame {
 		pathChoice.add(m_selectPathOption);
 		pathChoice.add(m_enterPathOption);
 
-
 		m_checkboxDiagonal = new JCheckBox("Allow diagonal neighbours");
 		m_checkboxDiagonal.setSelected(false);
-
 
 		JPanel panel=new JPanel();
 		panel.add(m_selectPathOption);
@@ -138,17 +129,12 @@ public class ReadMapFrame extends JFrame {
 		return panel;
     }
 
-
-
-	private JPanel createInputPanel(){
+	private JPanel createInputPanel()
+	{
 		m_pathField=new JTextField(30);
     	JPanel panel=new JPanel();
     	panel.add(m_pathField);
-
-
-
     	m_pathField.setText("Samples/input.txt");
-
 
 		m_SampleStrings = new ArrayList<String>();
 		m_SampleStrings.add("Samples/input.txt");
@@ -169,11 +155,11 @@ public class ReadMapFrame extends JFrame {
 
     	panel.add(m_pathCombo);
 
-
 		return panel;
     }
 
-	private JPanel createExtendedInstructionPanel(){
+	private JPanel createExtendedInstructionPanel()
+	{
 		m_expandedInfoLabel=new JLabel("You may have to wait while a graph of the maze is produced.");
 		JPanel panel =new JPanel();
 		panel.add(m_expandedInfoLabel);
@@ -204,9 +190,7 @@ public class ReadMapFrame extends JFrame {
 			boolean fileAccesable = false;
 			boolean isValidMap = false;
 
-
 			extendedInstructionPanel.setVisible(true);
-
 
 			String thePath;
 
@@ -221,68 +205,70 @@ public class ReadMapFrame extends JFrame {
 
 			};
 
-
 			mr_mapReader.isDiagonalAllowed = m_checkboxDiagonal.isSelected();
-
-
 
 			try
 			{
 				fileAccesable =  mr_mapReader.accessFile(thePath);
 			}
-			catch (NullPointerException e) { JOptionPane.showMessageDialog(null,"Sorry. Map result was is not accessable."); }
+			catch (NullPointerException e)
+			{
+				JOptionPane.showMessageDialog(null,"Sorry. Map result was is not accessable.");
+			}
 
 			try
 			{
-
 				WAIT();
 				isValidMap = mr_mapReader.readInText(thePath);
 				FINISHED();
-
 			}
-			catch (NullPointerException e) { JOptionPane.showMessageDialog(null,"Map validation failed."); }
+			catch (NullPointerException e)
+			{
+				JOptionPane.showMessageDialog(null,"Map validation failed.");
+			}
 
 
-			if (fileAccesable){
+			if (fileAccesable)
+			{
 				m_cancelButtonHandler.invisible();
 
 				JOptionPane.showMessageDialog(null,"File is a valid map. It has been selected. \n\n The next step is open the Path Render UI to begin pathfinding.");
-
 			}
-			else {
+			else
+			{
 				m_cancelButtonHandler.invisible();
 				JOptionPane.showMessageDialog(null,mr_mapReader.getLastError());
-				//todo
 			}
 		}
 	}
 	private class  CancelButtonHandler implements ActionListener
 	{
-		public void actionPerformed(ActionEvent event){
+		public void actionPerformed(ActionEvent event)
+		{
 			invisible();
 		}
 
-		public void invisible(){
+		public void invisible()
+		{
 			setVisible(false);//is this a good idea? Seems to meet requirements
 		}
 	}
 
-	private class EnterPathHandler implements ActionListener{
-		public void actionPerformed(ActionEvent event){
-			//m_selectPathOption.selected(false);
+	private class EnterPathHandler implements ActionListener
+	{
+		public void actionPerformed(ActionEvent event)
+		{
 			m_pathField.setVisible(true);
 			m_pathCombo.setVisible(false);
-
 		}
 	}
 
-	private class SelectPathHandler implements ActionListener{
-		public void actionPerformed(ActionEvent event){
-			//m_enterPathOption.selected(false);
+	private class SelectPathHandler implements ActionListener
+	{
+		public void actionPerformed(ActionEvent event)
+		{
 			m_pathField.setVisible(false);
 			m_pathCombo.setVisible(true);
-
-
 		}
 	}
 }

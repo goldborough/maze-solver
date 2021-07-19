@@ -26,20 +26,20 @@ public class MapReader {
 
 	public boolean isDiagonalAllowed=false;
 
-    public MapReader() {
-    }
+	public MapReader() {
+	}
 
-    public MapReader(MazeModel mazeModel, UIOutputPanel outputPanel) {
-    	mr_mazeModel = mazeModel;
-    	mr_outputPanel = outputPanel;
-    }
+	public MapReader(MazeModel mazeModel, UIOutputPanel outputPanel) {
+		mr_mazeModel = mazeModel;
+		mr_outputPanel = outputPanel;
+	}
 
-    public boolean accessFile(String path)
-    {
-    	displayMessage("Attempting to access file: "+path + "\n");
+	public boolean accessFile(String path)
+	{
+		displayMessage("Attempting to access file: "+path + "\n");
 
-    	FileInputStream inStream = null;
-        Scanner inFile = null;
+		FileInputStream inStream = null;
+		Scanner inFile = null;
 		String stringLine = "";
 		int lengthFirstLine;
 
@@ -69,7 +69,7 @@ public class MapReader {
 			System.err.println(ex);
 			return false;
 		}
-    }
+	}
 
 	public String nextLine(Scanner inFile)
 	{
@@ -87,24 +87,22 @@ public class MapReader {
 		return sNextLine;
 	}
 
-    public boolean validateFile(String path, boolean isWriteRun)
-    {
-    	Boolean isVerbose = true;
-
+	public boolean validateFile(String path, boolean isWriteRun)
+	{
+		Boolean isVerbose = true;
 		Boolean sucessfulRead=false;
 		String fileName = null;
-        String oneLine;
-        FileInputStream inStream = null;
-        Scanner inFile = null;
-        StringTokenizer stringTokenizer = null;
+		String oneLine;
+		FileInputStream inStream = null;
+		Scanner inFile = null;
+		StringTokenizer stringTokenizer = null;
 		int ii=0,jj=0,kk=0,ll=0,mm=0,nn=0;
 
 		if (isWriteRun) mr_mazeModel.init();
 
-        //checks if a file name is provided
-        try {
-
-        	inStream=new FileInputStream(path);
+		//checks if a file name is provided
+		try {
+			inStream=new FileInputStream(path);
 			inFile=new Scanner(inStream);
 
 			String sNextLine = "";
@@ -125,7 +123,6 @@ public class MapReader {
 				{ jj = Integer.parseInt(stringTokenizer.nextToken()); }//number of rows, y-coord
 				else { displayMessage("jj"); return false;}
 
-
 				//line two ----------
 				if ((sNextLine = nextLine(inFile)) == null) {return false;}
 				else { stringTokenizer = new StringTokenizer(sNextLine);}
@@ -138,7 +135,6 @@ public class MapReader {
 				if ( stringTokenizer.hasMoreTokens())
 				{ ll = Integer.parseInt(stringTokenizer.nextToken()); }
 				else { displayMessage("ll"); return false;}
-
 
 				//line three ----------
 				if ((sNextLine = nextLine(inFile)) == null) {return false;}
@@ -161,7 +157,6 @@ public class MapReader {
 			}
 
 			NodeModel newNode = null;
-
 			Vector<Vector<NodeModel>> rows;
 			Vector<NodeModel> nodes;
 
@@ -171,49 +166,52 @@ public class MapReader {
 				nodes = mr_mazeModel.getNodeList();
 
 			}
-			catch (NullPointerException ex){ System.err.println(ex);displayMessage("VERY NULL\n");return false;}
-
-
+			catch (NullPointerException ex){
+				System.err.println(ex);displayMessage("VERY NULL\n");return false;
+			}
 
 			if (isWriteRun) displayMessage("# begin file read\n");
 			else displayMessage("# begin validation");
 
 			if (isVerbose) displayMessage("vars: "+ii+" "+jj+" "+kk+" "+ll+" "+mm+" "+nn+"\n");
 
+			for (int rowCount=0; rowCount < jj; rowCount++)
+			{
+				if ((sNextLine = nextLine(inFile)) == null) {return false;}
+				else { stringTokenizer = new StringTokenizer(sNextLine);}
 
+				//if (sNextLine.length() != jj) {displayMessage("unexpected string length in map");return false;}
 
-	        for (int rowCount=0; rowCount < jj; rowCount++)
-	        {
-	        	if ((sNextLine = nextLine(inFile)) == null) {return false;}
-	        	else { stringTokenizer = new StringTokenizer(sNextLine);}
+				Vector<NodeModel> row = new Vector<NodeModel>();
 
-	        	//if (sNextLine.length() != jj) {displayMessage("unexpected string length in map");return false;}
-
-	        	Vector<NodeModel> row = new Vector<NodeModel>();
-
-	        	if (isWriteRun) row.setSize(ii);
+				if (isWriteRun) row.setSize(ii);
 
 				for (int collumnCount=0; collumnCount < ii;collumnCount++)
-	        	{
-	        		newNode = null;
+				{
+					newNode = null;
 
 					int i = Integer.parseInt(stringTokenizer.nextToken());
-					if ( i<0 || i>1) {displayMessage("map data contained an invalid integer."); return false;}
 
-		        	if (isWriteRun){
-		        		 newNode = new NodeModel(i,collumnCount,rowCount);
-		        		 row.setElementAt(newNode,collumnCount);
-		        		 nodes.add(newNode);
-		        	}
-		        	if (isVerbose) displayMessageAddToLine(Integer.toString(i)+" ");
-	        	}
-	        	displayMessageAddToLine("\n");
-	        	if (isWriteRun) rows.add(row);
-	        }
+					if ( i<0 || i>1)
+					{
+						displayMessage("map data contained an invalid integer."); return false;
+					}
 
-	        if (isWriteRun) displayMessage("# file read appears to be complete\n");
-	        else displayMessage("# completed validation");
+					if (isWriteRun)
+					{
+						newNode = new NodeModel(i,collumnCount,rowCount);
+						row.setElementAt(newNode,collumnCount);
+						nodes.add(newNode);
+					}
 
+					if (isVerbose) displayMessageAddToLine(Integer.toString(i)+" ");
+				}
+				displayMessageAddToLine("\n");
+				if (isWriteRun) rows.add(row);
+			}
+
+			if (isWriteRun) displayMessage("# file read appears to be complete\n");
+			else displayMessage("# completed validation");
 
 			if (isWriteRun)
 			{
@@ -225,46 +223,43 @@ public class MapReader {
 
 			Vector<NodeModel> thisRow = null;
 
-
 			if (isVerbose)
 			{
-
 				if (isWriteRun) displayMessage("# begin read back from Vector\n");
 
-		        for (int rowCount=0; rowCount < jj; rowCount++)
-		        {
+				for (int rowCount=0; rowCount < jj; rowCount++)
+				{
 					if (isWriteRun) thisRow = rows.get(rowCount);
 					for (int collumnCount=0; collumnCount < ii;collumnCount++)
-		        	{
-			        	if (isWriteRun)
-			        	{
+					{
+						if (isWriteRun)
+						{
 			        		if (thisRow.get(collumnCount).identity == 1 )
 			        		displayMessageAddToLine("O ");
 			        		else displayMessageAddToLine("  ");
-			        	};
-		        	}
-		        	if (isWriteRun) displayMessageAddToLine("\n");
-		        }
-
-		       if (isWriteRun) displayMessage("# completed read back from Vector");
+						};
+					}
+					if (isWriteRun) displayMessageAddToLine("\n");
+				}
+				if (isWriteRun) displayMessage("# completed read back from Vector");
 			}
 
 			mr_mazeModel.setState(MazeInitState.maze_initialised);
 
 			sucessfulRead = true;
-        }
+		}
 		catch(FileNotFoundException ex) { System.err.println(ex); }
 
  		return sucessfulRead;
-    }
+	}
 
 
-    public boolean readInText(String path)
-    {
-    	Boolean sucessfulRead=false;
+	public boolean readInText(String path)
+	{
+		Boolean sucessfulRead=false;
 
-    	//We will first run through the validation logic in our read code
-    	//Secondly we will write with that same code to our MazeModel object
+		//We will first run through the validation logic in our read code
+		//Secondly we will write with that same code to our MazeModel object
 
 		if (!validateFile(path, false))
 		{
@@ -293,23 +288,22 @@ public class MapReader {
 		}
 
  		return sucessfulRead;
-    }
+	}
 
-    public boolean displayMessage(String message)
-    {
+	public boolean displayMessage(String message)
+	{
 		mr_outputPanel.displayMessage(message);
 		return true;
-    }
+	}
 
-    public boolean displayMessageAddToLine(String message)
-    {
+	public boolean displayMessageAddToLine(String message)
+	{
 		mr_outputPanel.displayMessageAddToLine(message);
 		return true;
-    }
+	}
 
-    public String getLastError()
-    {
-    	return "The Error Message";
-    }
-
+	public String getLastError()
+	{
+		return "The Error Message";
+	}
 }

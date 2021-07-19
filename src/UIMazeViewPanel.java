@@ -7,15 +7,12 @@
  */
 
 import java.awt.Canvas;
-
 import java.awt.Color;
 import java.awt.Dimension;
 //import java.awt.geom.Ellipse2D;
-
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Font;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,11 +25,10 @@ import javax.swing.JPanel;
 import javax.swing.Scrollable;
 import javax.swing.Timer;
 
-public class UIMazeViewPanel extends JPanel implements Scrollable {
+public class UIMazeViewPanel extends JPanel implements Scrollable
+{
 	public static final long serialVersionUID = 1L;
-
 	public static final float MY_FPS = 60.0f;
-
 	private AstarPathfinder m_pathfinder;
 
 	// path print vars
@@ -41,12 +37,9 @@ public class UIMazeViewPanel extends JPanel implements Scrollable {
 	Vector<Vector<NodeLocalTree>> structuredGraph;
 	NodeModel nextNode = null;
 	NodeLocalTree nextGraph = null;
-
 	private int scaledX = 5, scaledY = 5;
 	private int width = 1920, height = 1200;
-
 	private MazeModel mr_mazeModel = null;
-
 	UIOutputPanel out;
 
 	// Color m_grey = new Color(255, 127, 127, 255);
@@ -54,13 +47,16 @@ public class UIMazeViewPanel extends JPanel implements Scrollable {
 	// private float m_deltaTime;
 	private int m_frameTime;
 	private final Timer m_gameTimer;
-	private ActionListener m_timerHandler = new ActionListener() {
-		public void actionPerformed(ActionEvent theEvent) {
+	private ActionListener m_timerHandler = new ActionListener()
+	{
+		public void actionPerformed(ActionEvent theEvent)
+		{
 			render();
 		}
 	};
 
-	public UIMazeViewPanel() {
+	public UIMazeViewPanel()
+	{
 		super();
 
 		this.width = 1920;
@@ -73,17 +69,14 @@ public class UIMazeViewPanel extends JPanel implements Scrollable {
 		// m_deltaTime = 1000.0f/MY_FPS; // for now. this is 1 second.
 		m_gameTimer = new Timer(m_frameTime, m_timerHandler);
 		m_gameTimer.start(); // starts the timer.
-
 	}
 
-	public void init(MazeModel mazeModel, UIOutputPanel o) {
+	public void init(MazeModel mazeModel, UIOutputPanel o)
+	{
 		out = o;
-
 		m_pathfinder = new AstarPathfinder();
 		m_pathfinder.init(mazeModel.getNodeList(), mazeModel.getRelationships(), mazeModel.getStructuredGraph(), o);
-
 		setMazeModel(mazeModel);
-
 		this.setVisible(true);
 
 		// print out linked list we have been leaving in our closed list
@@ -93,10 +86,8 @@ public class UIMazeViewPanel extends JPanel implements Scrollable {
 
 		out.msg("print list. Closed list size: " + closedList.size());
 
-		if (closedList.size() == 0)
-			return;
-		else
-			start = closedList.get(0);
+		if (closedList.size() == 0) return;
+		else start = closedList.get(0);
 
 		structuredGraph = m_pathfinder.GetStructuredGraph();
 		nextNode = null;
@@ -104,17 +95,20 @@ public class UIMazeViewPanel extends JPanel implements Scrollable {
 
 		int count = 0;
 
-		if (closedList.get(0).m_child != null) {
+		if (closedList.get(0).m_child != null)
+		{
 			nextNode = closedList.get(0).m_child;
 			out.msg("" + count + "/" + nextNode.x + "," + nextNode.g + "/" + Math.round(nextNode.f) + "="
 					+ Math.round(nextNode.g) + "+" + Math.round(nextNode.h));
 			count++;
-		} else {
+		} else
+		{
 			out.msg("render path: close list child null EXIT");
 			return;
 		}
 
-		while (nextNode != null) {
+		while (nextNode != null)
+		{
 			nextGraph = structuredGraph.get(nextNode.y).get(nextNode.x);
 			nextNode = nextGraph.m_child;
 
@@ -125,17 +119,17 @@ public class UIMazeViewPanel extends JPanel implements Scrollable {
 
 			count += 1;
 
-			if (count > 20000) {
+			if (count > 20000)
+			{
 				out.msg("render path: max while loop EXIT");
 
 			}
 		}
-
 		out.msg("done list");
-
 	}
 
-	public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g)
+	{
 
 		super.paintComponent(g);
 
@@ -180,7 +174,8 @@ public class UIMazeViewPanel extends JPanel implements Scrollable {
 
 		paintPath(g);// Function Below
 
-		while (listiteratorClosed.hasPrevious()) {
+		while (listiteratorClosed.hasPrevious())
+		{
 			NodeLocalTree tree = listiteratorClosed.previous();
 
 			g.setColor(Color.YELLOW);
@@ -193,11 +188,13 @@ public class UIMazeViewPanel extends JPanel implements Scrollable {
 		}
 	}
 
-	public void render() {
+	public void render()
+	{
 		this.repaint();
 	}
 
-	public void paintPath(Graphics g) {
+	public void paintPath(Graphics g)
+	{
 		closedList = m_pathfinder.GetClosedList();
 		// NodeLocalTree start;
 
@@ -215,16 +212,20 @@ public class UIMazeViewPanel extends JPanel implements Scrollable {
 		int count = closedList.size() - 1;
 		int countIncrement = 1;
 
-		if (closedList.get(count).m_parent != null) {
+		if (closedList.get(count).m_parent != null)
+		{
 			nextNode = closedList.get(count).m_parent;
 			paintNode(g, nextNode, countIncrement);
 			count -= 1;
 			countIncrement++;
-		} else {
+		}
+		else
+		{
 			return;
 		}
 
-		while (nextNode != null) {
+		while (nextNode != null)
+		{
 			nextGraph = structuredGraph.get(nextNode.y).get(nextNode.x);
 			nextNode = nextGraph.m_parent;
 
@@ -241,7 +242,8 @@ public class UIMazeViewPanel extends JPanel implements Scrollable {
 
 	}
 
-	public void paintNode(Graphics g, NodeModel nextNode, int count) {
+	public void paintNode(Graphics g, NodeModel nextNode, int count)
+	{
 		g.setColor(Color.BLUE);
 		g.fillRect((int) (nextNode.x * scaledX), (int) (nextNode.y * scaledY), scaledX, scaledY);
 		g.setColor(Color.WHITE);
@@ -254,7 +256,8 @@ public class UIMazeViewPanel extends JPanel implements Scrollable {
 		}
 	}
 
-	public void setMazeModel(MazeModel mazeModel) {
+	public void setMazeModel(MazeModel mazeModel)
+	{
 		mr_mazeModel = mazeModel;
 
 		out.msg("maze size when ui loaded" + (int) (width / mazeModel.m_xSize) + " " + (int) (height / mazeModel.m_ySize));
@@ -278,35 +281,41 @@ public class UIMazeViewPanel extends JPanel implements Scrollable {
 
 	}
 
-	private class TimerHandler implements ActionListener {
-		public void actionPerformed(ActionEvent theEvent) {
+	private class TimerHandler implements ActionListener
+	{
+		public void actionPerformed(ActionEvent theEvent)
+		{
 			render();
 		}
 	}
 
 	@Override
-	public Dimension getPreferredScrollableViewportSize() {
+	public Dimension getPreferredScrollableViewportSize()
+	{
 		return null;
 	}
 
 	@Override
-	public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+	public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction)
+	{
 		return 5;
 	}
 
 	@Override
-	public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+	public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction)
+	{
 		return 10;
 	}
 
 	@Override
-	public boolean getScrollableTracksViewportWidth() {
+	public boolean getScrollableTracksViewportWidth()
+	{
 		return false;
 	}
 
 	@Override
-	public boolean getScrollableTracksViewportHeight() {
+	public boolean getScrollableTracksViewportHeight()
+	{
 		return false;
 	};
-
 }
