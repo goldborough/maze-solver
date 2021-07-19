@@ -2,14 +2,14 @@
 
 Technical challenge: Implement a*
 
-Interpret a text file and solve a maze.
+Interpret a maze as represented in a text file.
 
 ![Preview](https://github.com/goldborough/maze-solver/blob/main/docs/images/PREVIEW_01.PNG)
 
-Yellow is unsearched.
+Yellow squares are unsearched.
 
-Blue and green is searched.
+Blue and green squares are searched.
 
-Blue is the final path.
+Blue squares are the final path.
 
-Red is start and end point.
+Red squares are the start and end points.
